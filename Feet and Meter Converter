@@ -1,0 +1,30 @@
+//This program converts feet and meters in between and displays their results on a table in the console. /
+//Note that feet is increased by one due to "++" operator and meters by 5 due to "+=" operator. /
+
+public class Metrics {
+	/** Main method (every program has one) */
+	public static void main(String[] args) {
+		//**Display conversion table */
+		System.out.println(
+			"\nFeet     Meters     |     Meters     Feet\n" +
+			"----------------------------------------------");
+		//**The amount of each foot and meter incremented by as well as their positions on the table */
+		for (double feet = 1.0, meters = 20.0; feet <= 10.0; feet++, meters += 5) {
+			System.out.printf("%4.1f     ", feet);
+			System.out.printf("%6.3f", footToMeter(feet));
+			System.out.print("     |     ");
+			System.out.printf("%-11.1f", meters);
+			System.out.printf("%7.3f\n", meterToFoot(meters));
+		}
+	}
+	
+	/** Converting feet to meters and returning results to conversion table */
+	public static double footToMeter(double foot) {
+		return 0.305 * foot;
+	}
+
+	/** Converting meters to feet and returning results to conversion table*/
+	public static double meterToFoot(double meter) {
+		return 3.279 * meter;
+	}
+}
