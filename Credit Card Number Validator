@@ -1,0 +1,103 @@
+import java.util.Scanner;
+
+public class Credit {
+	/** Main Method (every program has one) */
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in); 
+
+// This prompts the user to enter a credit card number that’s between 13 to 16 digits
+		System.out.print("Enter a credit card number that is between 13 to 16 digits: ");
+		long number = input.nextLong();
+
+		System.out.println(
+			number + " is " + (isValid(number) ? "valid" : "invalid"));
+	}
+
+	/** This will return true if the inputted credit card number is valid, which must meet certain criteria */
+public static boolean isValid(long number) {
+		boolean valid =
+			(getSize(number) >= 13 && getSize(number) <= 16) &&
+			(prefixMatched(number, 4) || prefixMatched(number, 5) ||
+			prefixMatched(number, 37) || prefixMatched(number, 6)) &&
+			((sumOfDoubleEvenPlace(number) + sumOfOddPlace(number)) % 10 == 0);
+
+		return valid;
+	}
+
+	/** This will be the result of step 2 */
+	public static int sumOfDoubleEvenPlace(long number) {
+	int sum = 0;
+	
+	// This starts at the second to last digit and we’re dividing it by 10
+	number /= 10;
+
+	int result;
+
+	// For remaining digits in the number
+	while (number != 0) {
+	
+	// Acquire the rightmost digit in the number
+		int rightmostDigit = (int) (number % 10);
+
+	// Double it by multiplying by 2
+		rightmostDigit *= 2;
+
+	// Here is the result outputted and the result added to the sum
+		result = getDigit(rightmostDigit);
+		sum += result;
+
+	// Lastly, move two digits over by dividing 100 and continue until there’s none left
+		number /= 100;
+		}
+	return sum;
+	}
+
+	/** This either returns the number if it’s a single digit or the sum of two digits */
+	public static int getDigit(int number) {
+		if (number < 9)
+			return number;
+		else
+			return number / 10 + number % 10;
+	}
+
+	/** This returns sum of odd-placed digits */
+	 public static int sumOfOddPlace(long number) {
+        		int sum = 0;
+
+        // while there are still digits remaining in number
+        	while (number != 0) {
+            	// get the rightmost digit
+            	int rightmostDigit = (int) (number % 10);
+
+           		// add the rightmost digit to the sum
+            	sum += rightmostDigit;
+
+            	// move 2 digits to the left (the next odd place)
+            	number /= 100;
+        }
+
+        return sum;
+    }
+
+	
+	/** This will return true if the digit d is a prefix for number */
+	public static boolean prefixMatched(long number, int d) {
+		return getPrefix(number, getSize(d)) == d;
+	}
+
+	/** This will return the number of digits in d */
+	public static int getSize(long d) {
+		String num = d + "";
+		return num.length();
+	}
+
+	/** Return the first k number of digits from number. If the
+	* number of digits in number is less than k, return number. */
+	public static long getPrefix(long number, int k) {
+		if (getSize(number) > k)  {
+			String num = number + "";
+			return  Long.parseLong(num.substring(0, k));
+		}
+		return number;
+	}
+}
